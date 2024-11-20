@@ -1,0 +1,64 @@
+.newPost {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  align-items: center;
+
+  color: #52c41a;
+  text-decoration: none;
+  border: 1px solid #52c41a;
+  padding: 6px 12px 6px 10px;
+  border-radius: 5px;
+}
+
+.username {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  align-items: center;
+
+  color: rgba(0, 0, 0, 0.85);
+
+  margin: 0;
+}
+
+.userInfo {
+    display: flex;
+    gap: 0 13px;
+    align-items: center;
+    text-decoration: none;
+}
+
+.userimage {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover
+}
+
+.btnLogout{
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 28px;
+align-items: center;
+
+color: #000;
+
+text-decoration: none;
+padding: 10px 18px;
+border: 1px solid #000;
+border-radius: 5px;
+box-sizing: border-box;
+width: 109px;
+height: 51px;
+
+&:hover{
+    opacity: 0.75;
+}
+}

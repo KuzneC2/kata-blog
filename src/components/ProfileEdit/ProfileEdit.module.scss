@@ -1,0 +1,147 @@
+.formContainer {
+  max-width: 384px;
+  width: 100%;
+  margin: 60px auto 0;
+  background-color: #fff;
+  padding: 48px 32px;
+  box-sizing: border-box;
+}
+
+.formTitle {
+  margin: 0;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  color: #262626;
+  padding-bottom: 21px;
+}
+
+.form {
+}
+
+.labelContainer {
+  max-height: 88px;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+.label {
+}
+
+.labelSpan {
+  padding-bottom: 2px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  align-items: center;
+
+  color: #262626;
+}
+
+.input {
+  background-color: transparent;
+  border: 1px solid #d9d9d9;
+  padding: 8px 12px;
+  border-radius: 4px;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: rgba(0, 0, 0, 0.75);
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #bfbfbf;
+  }
+}
+.input:-webkit-autofill {
+  -webkit-text-fill-color: rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0 0 0 1000px #fff inset;
+}
+.inputError {
+  outline: #f5222d;
+  border-color: #f5222d;
+}
+
+.btnSubmit {
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: #1890ff;
+  height: 40px;
+  border-radius: 4px;
+  border: none;
+  margin-top: 21px;
+}
+
+.labelCheckbox {
+  display: flex;
+}
+
+.labelSpanCheck {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #595959;
+  padding-left: 8px;
+}
+
+.inputCheck {
+  display: none;
+}
+.checkbox {
+  width: 17px;
+  height: 15px;
+  border: 1px solid #1890ff;
+  display: inline-block;
+  background-color: #fff;
+  margin: 2px 0 0 0;
+  border-radius: 2px;
+  box-sizing: content-box;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.inputCheck[type='checkbox']:checked + .checkbox {
+  background-image: url(../../assets/checkboxForm.svg);
+}
+
+.description {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+
+  color: #8c8c8c;
+  margin: 0;
+  padding-top: 8px;
+}
+.link {
+  color: #1890ff;
+  text-decoration: none;
+}
+
+.error {
+  padding-bottom: 12px;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #f5222d;
+}

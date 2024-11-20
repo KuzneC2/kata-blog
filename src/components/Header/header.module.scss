@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  font-family: -apple-system, 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  min-height: 80px;
+}
+
+.title {
+  margin: 0;
+  padding-left: 22px;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.85);
+  text-decoration: none;
+}
+.auntContaineer{
+    padding-right: 22px;
+    display: flex;
+    align-items: center;
+    gap: 0 27px;
+  }
+
