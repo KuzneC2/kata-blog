@@ -17,7 +17,7 @@ export default function HeaderLogOut() {
   } else {
     return (
       <>
-        <Link className={styleLogout.newPost}>Create article</Link>
+        <Link className={styleLogout.newPost} to={'/new-article'}>Create article</Link>
         <Link className={styleLogout.userInfo} to={'/profile'}>
           <h6 className={styleLogout.username}>{user.username}</h6>
           <img className={styleLogout.userimage} src={user.image} alt="avatar" />

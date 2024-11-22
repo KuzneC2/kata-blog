@@ -1,4 +1,4 @@
-.spiner{
+.spiner {
   margin: auto;
 }
 .articleContainer {
@@ -40,6 +40,11 @@
   box-sizing: border-box;
   padding-right: 12px;
   text-decoration: none;
+
+  max-width: 250px;
+  overflow-wrap: anywhere;
+  overflow: hidden;
+  max-height: 30px;
 }
 
 .tag {
@@ -67,6 +72,12 @@
   border-radius: 2px;
   padding: 2px 6px 3px 5px;
   box-sizing: border-box;
+
+  max-width: 120px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 20px;
 }
 
 .userInfo {
@@ -100,7 +111,7 @@
   width: 46px;
   border-radius: 50%;
   height: 46px;
-  object-fit: cover
+  object-fit: cover;
 }
 
 .description {
@@ -113,6 +124,10 @@
   max-width: 682px;
   margin: 0;
   padding-top: 4px;
+
+  overflow-wrap: anywhere;
+  overflow: hidden;
+  max-height: 28px;
 }
 
 .liker {

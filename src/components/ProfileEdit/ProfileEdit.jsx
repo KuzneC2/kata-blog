@@ -31,7 +31,6 @@ export default function ProfileEdit() {
   const imageError = formState.errors['image']?.message;
 
   const onSubmit = (value) => {
-    console.log(value);
 
     const updatedData = {};
     for (const key in value) {
@@ -39,13 +38,11 @@ export default function ProfileEdit() {
         updatedData[key] = value[key];
       }
     }
-    console.log('Отправленные данные', updatedData);
     profileEdit(updatedData);
   };
 
   useEffect(() => {
     if (isSuccess) {
-      console.log('Данные ответа', data);
       localStorage.setItem('user-info', JSON.stringify(data.user));
       dispatch(loginStart());
       navigator('/');
@@ -65,7 +62,6 @@ export default function ProfileEdit() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, error, isSuccess]);
 
-  console.log(error);
   const errorMessage =
     isError && error.status == 422 ? (
       <Flex justify="center">

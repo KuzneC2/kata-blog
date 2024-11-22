@@ -33,19 +33,18 @@ export default function RegisterForm() {
 
     if (error?.status == 422) {
       if (error?.data?.errors?.email.length) {
-        console.log(error?.data?.error?.email);
         setError('email', {
           message: 'is already taken',
         });
       }
       if (error?.data?.errors?.username.length) {
-        console.log(error?.data?.error?.username);
 
         setError('username', {
           message: 'is already taken',
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, error, isError, isLoading, isSuccess]);
 
   const errorMessage = isError ? (

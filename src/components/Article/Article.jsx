@@ -4,6 +4,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import avatar from '../../assets/avatar.svg'
 
 export default function Article({ data }) {
+  console.log(data)
   return (
     <>
       <div className={styleArticle.articleContainer}>
@@ -33,7 +34,7 @@ export default function Article({ data }) {
           <div className={styleArticle.userInfo}>
             <div className={styleArticle.userDescription}>
               <h2 className={styleArticle.userName}>{data.author.username}</h2>
-              <p className={styleArticle.date}>{format(new Date(data.updatedAt), 'MMM d, yyyy')}</p>
+              <p className={styleArticle.date}>{format(new Date(data.createdAt), 'MMM d, yyyy')}</p>
             </div>
             <img className={styleArticle.userPic} src={data.author.image? data.author.image: avatar} alt="аватар" />
           </div>

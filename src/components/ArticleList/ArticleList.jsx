@@ -18,6 +18,7 @@ export default function ArticleList() {
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('user-info'));
     dispatch(signInUser(userInfo));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const [paginate, setPaginate] = useState(1);

@@ -64,6 +64,28 @@ export const articlesApi = createApi({
         providesTags: ['user'],
       }),
     }),
+    articleAdd: build.mutation({
+      query: (body) => ({
+        url: 'articles',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['articles'],
+    }),
+    articleDelete: build.mutation({
+      query: (slug) => ({
+        url: `articles/${slug}`,
+        method: 'DELETE',
+      }),
+    }),
+    articleEdit: build.mutation({
+      query: (body) => ({
+        url: `articles/${body.slug}`,
+        method: 'PUT',
+        body: body.body,
+      }),
+      invalidatesTags: ['articles'],
+    }),
   }),
 });
 
@@ -74,4 +96,7 @@ export const {
   useSignInProfileMutation,
   useGetProfileUserQuery,
   useProfileEditMutation,
+  useArticleAddMutation,
+  useArticleDeleteMutation,
+  useArticleEditMutation,
 } = articlesApi;

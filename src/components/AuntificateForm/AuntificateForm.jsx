@@ -40,6 +40,7 @@ export default function AuntificateForm() {
         message: 'invalid password or email',
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isSuccess, isError]);
 
   const errorMessage = isError ? (
