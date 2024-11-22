@@ -13,19 +13,20 @@ export const articlesApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['articles', 'articles', 'user'],
+  tagTypes: ['Articles', 'Article', 'User'],
   endpoints: (build) => ({
     getArticles: build.query({
       query: (offset = '0') => `articles?limit=5&offset=${offset}`,
-      providesTags: ['articles'],
+      providesTags: ['Articles'],
     }),
     getArticle: build.query({
       query: (slug) => `articles/${slug}`,
-      providesTags: ['article'],
+      providesTags: ['Article', 'Articles'],
+     
     }),
     getProfileUser: build.query({
       query: () => 'user',
-      providesTags: ['user'],
+      providesTags: ['User'],
     }),
     registerProfile: build.mutation({
       query: (body) => ({
@@ -39,7 +40,7 @@ export const articlesApi = createApi({
           },
         },
       }),
-      providesTags: ['user'],
+      providesTags: ['User'],
     }),
     signInProfile: build.mutation({
       query: (body) => ({
@@ -52,7 +53,7 @@ export const articlesApi = createApi({
           },
         },
       }),
-      providesTags: ['user'],
+      providesTags: ['User', 'Article', 'Articles'],
     }),
     profileEdit: build.mutation({
       query: (body) => ({
@@ -61,7 +62,7 @@ export const articlesApi = createApi({
         body: {
           user: body,
         },
-        providesTags: ['user'],
+        providesTags: ['User'],
       }),
     }),
     articleAdd: build.mutation({
@@ -70,13 +71,14 @@ export const articlesApi = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['articles'],
+      invalidatesTags: ['Articles'],
     }),
     articleDelete: build.mutation({
       query: (slug) => ({
         url: `articles/${slug}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Articles']
     }),
     articleEdit: build.mutation({
       query: (body) => ({
@@ -84,9 +86,10 @@ export const articlesApi = createApi({
         method: 'PUT',
         body: body.body,
       }),
-      invalidatesTags: ['articles'],
+      invalidatesTags: ['Articles', 'Article'],
     }),
   }),
+  
 });
 
 export const {

@@ -14,8 +14,10 @@ export default function ArticleFull() {
   const { slug } = useParams();
   const user = JSON.parse(localStorage.getItem('user-info'));
   const [delArticle] = useArticleDeleteMutation();
+  
   const { data, isLoading, error } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true });
-
+ 
+console.log(data)
   const deleteArticle = () => {
     delArticle(data?.article?.slug);
     navigate('/');
@@ -23,10 +25,10 @@ export default function ArticleFull() {
   if (error)
     return (
       <Flex justify="center">
-        <Alert message="Произошла какая-то ошибка, мы уже разбираемся!" type="error" showIcon />
+        <Alert message="There's been some kind of mistake, we're already figuring it out!" type="error" showIcon />
       </Flex>
     );
-  if (isLoading)
+  if (isLoading || data == undefined)
     return (
       <Flex align="center" justify="center">
         <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />

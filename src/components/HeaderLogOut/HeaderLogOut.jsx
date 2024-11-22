@@ -3,13 +3,14 @@ import styleLogout from './HeaderLogOut.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { articlesApi } from '../../redux/defaulApi.js';
 import { logOutUser } from '../../redux/userSlice';
+import avatar from '../../assets/avatar.jpg';
 
 export default function HeaderLogOut() {
   const dispatch = useDispatch();
   const logOut = () => {
-      dispatch(logOutUser());
-      localStorage.removeItem('user-info');
-      articlesApi.invalidateTags('articles');
+    dispatch(logOutUser());
+    localStorage.removeItem('user-info');
+    articlesApi.invalidateTags('Articles');
   };
   const user = useSelector((state) => state?.user?.user);
   if (!user?.email) {
@@ -17,10 +18,12 @@ export default function HeaderLogOut() {
   } else {
     return (
       <>
-        <Link className={styleLogout.newPost} to={'/new-article'}>Create article</Link>
+        <Link className={styleLogout.newPost} to={'/new-article'}>
+          Create article
+        </Link>
         <Link className={styleLogout.userInfo} to={'/profile'}>
           <h6 className={styleLogout.username}>{user.username}</h6>
-          <img className={styleLogout.userimage} src={user.image} alt="avatar" />
+          <img className={styleLogout.userimage} src={user?.image ? user?.image : avatar} alt="avatar" />
         </Link>
         <Link className={styleLogout.btnLogout} onClick={logOut} to={'/'}>
           Log Out

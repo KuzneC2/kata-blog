@@ -1,7 +1,7 @@
 import styleArticle from './Article.module.scss';
 import { format } from 'date-fns';
 import { NavLink, Outlet } from 'react-router-dom';
-import avatar from '../../assets/avatar.svg'
+import avatar from '../../assets/avatar.jpg'
 
 export default function Article({ data }) {
   return (
