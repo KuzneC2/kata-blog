@@ -1,7 +1,7 @@
 import Article from '../Article/Article.jsx';
 import { Pagination, ConfigProvider } from 'antd';
 
-import { useGetArticlesQuery } from '../../redux/defaulApi.js';
+import { useAddFavoriteMutation, useGetArticlesQuery, useRemoveFavoriteMutation } from '../../redux/defaulApi.js';
 import { Flex, Spin } from 'antd';
 import { Alert } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -18,12 +18,32 @@ export default function ArticleList() {
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('user-info'));
     dispatch(signInUser(userInfo));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [paginate, setPaginate] = useState(1);
   const disArticle = (paginate - 1) * 5;
   const { data = [], isLoading, error } = useGetArticlesQuery(disArticle, { refetchOnMountOrArgChange: true });
+
+  const [addFavotite] = useAddFavoriteMutation();
+  const [removeFavorite] = useRemoveFavoriteMutation();
+  const deleteLike = async (slug) => {
+    try {
+      console.log('del');
+      await removeFavorite(slug);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addLike = async (slug) => {
+    try {
+      console.log('add');
+      await addFavotite(slug);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (error)
     return (
@@ -41,7 +61,7 @@ export default function ArticleList() {
     <>
       <div className={styleArticleList.container}>
         {data.articles.map((item) => (
-          <Article key={item.slug} data={item} />
+          <Article key={item.slug} data={item} deleteLike={deleteLike} addLike={addLike} />
         ))}
 
         <ConfigProvider

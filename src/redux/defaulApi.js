@@ -22,7 +22,6 @@ export const articlesApi = createApi({
     getArticle: build.query({
       query: (slug) => `articles/${slug}`,
       providesTags: ['Article', 'Articles'],
-     
     }),
     getProfileUser: build.query({
       query: () => 'user',
@@ -40,7 +39,7 @@ export const articlesApi = createApi({
           },
         },
       }),
-      providesTags: ['User'],
+      invalidatesTags: ['User'],
     }),
     signInProfile: build.mutation({
       query: (body) => ({
@@ -53,7 +52,7 @@ export const articlesApi = createApi({
           },
         },
       }),
-      providesTags: ['User', 'Article', 'Articles'],
+      invalidatesTags: ['User', 'Article', 'Articles'],
     }),
     profileEdit: build.mutation({
       query: (body) => ({
@@ -62,7 +61,7 @@ export const articlesApi = createApi({
         body: {
           user: body,
         },
-        providesTags: ['User'],
+        invalidatesTags: ['User'],
       }),
     }),
     articleAdd: build.mutation({
@@ -78,7 +77,7 @@ export const articlesApi = createApi({
         url: `articles/${slug}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Articles']
+      invalidatesTags: ['Articles'],
     }),
     articleEdit: build.mutation({
       query: (body) => ({
@@ -88,8 +87,21 @@ export const articlesApi = createApi({
       }),
       invalidatesTags: ['Articles', 'Article'],
     }),
+    addFavorite: build.mutation({
+      query: (slug) => ({
+        url: `articles/${slug}/favorite`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Article', 'Articles'],
+    }),
+    removeFavorite: build.mutation({
+      query: (slug) => ({
+        url: `articles/${slug}/favorite`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Article', 'Articles'],
+    }),
   }),
-  
 });
 
 export const {
@@ -102,4 +114,6 @@ export const {
   useArticleAddMutation,
   useArticleDeleteMutation,
   useArticleEditMutation,
+  useAddFavoriteMutation,
+  useRemoveFavoriteMutation
 } = articlesApi;

@@ -1,5 +1,10 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useGetArticleQuery, useArticleDeleteMutation } from '../../redux/defaulApi';
+import {
+  useGetArticleQuery,
+  useArticleDeleteMutation,
+  useAddFavoriteMutation,
+  useRemoveFavoriteMutation,
+} from '../../redux/defaulApi';
 import { format } from 'date-fns';
 import styleArticleFull from './ArticleFull.module.scss';
 import Markdown from 'markdown-to-jsx';
@@ -14,26 +19,34 @@ export default function ArticleFull() {
   const { slug } = useParams();
   const user = JSON.parse(localStorage.getItem('user-info'));
   const [delArticle] = useArticleDeleteMutation();
-  
   const { data, isLoading, error } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true });
- 
-console.log(data)
+
+  const [addFavotite] = useAddFavoriteMutation();
+  const [removeFavorite] = useRemoveFavoriteMutation();
+
   const deleteArticle = () => {
     delArticle(data?.article?.slug);
     navigate('/');
   };
-  if (error)
-    return (
-      <Flex justify="center">
-        <Alert message="There's been some kind of mistake, we're already figuring it out!" type="error" showIcon />
-      </Flex>
-    );
-  if (isLoading || data == undefined)
-    return (
-      <Flex align="center" justify="center">
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
-      </Flex>
-    );
+
+  const deleteLike = async () => {
+    try {
+      console.log('del');
+      await removeFavorite(slug);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addLike = async () => {
+    try {
+      console.log('add');
+      await addFavotite(slug);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const editingPanel =
     user?.username == data?.article?.author?.username ? (
       <div className={styleArticleFull.editButtons}>
@@ -58,6 +71,25 @@ console.log(data)
       </div>
     ) : null;
 
+  if (error)
+    return (
+      <Flex justify="center">
+        <Alert message="There's been some kind of mistake, we're already figuring it out!" type="error" showIcon />
+      </Flex>
+    );
+  if (isLoading)
+    return (
+      <Flex align="center" justify="center">
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
+      </Flex>
+    );
+
+  const liker = data?.article?.favorited ? (
+    <span className={`${styleArticleFull.heart} ${styleArticleFull.heart_on}`} onClick={deleteLike}></span>
+  ) : (
+    <span className={styleArticleFull.heart} onClick={addLike}></span>
+  );
+
   return (
     <>
       <div className={styleArticleFull.articleFullContainer}>
@@ -67,8 +99,7 @@ console.log(data)
               <div className={styleArticleFull.titleBox}>
                 <h2 className={styleArticleFull.title}>{data?.article?.title}</h2>
                 <label className={styleArticleFull.liker}>
-                  <input className={styleArticleFull.input} type="checkbox" checked={data?.article?.favorited} />
-                  <span className={styleArticleFull.heart}></span>
+                  {liker}
                   {data?.article?.favoritesCount}
                 </label>
               </div>

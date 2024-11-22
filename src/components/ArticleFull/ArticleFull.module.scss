@@ -163,9 +163,14 @@
   cursor: pointer;
 }
 
-.input[type='checkbox']:checked + .heart {
+.heart_on{
   background-image: url(../../assets/heart-active.svg);
+  
 }
+
+// .input[type='checkbox']:checked + .heart {
+//   background-image: url(../../assets/heart-active.svg);
+// }
 
 .descriptionPanel {
   display: flex;
