@@ -33,7 +33,7 @@ export default function ArticleFull() {
       </Flex>
     );
   const editingPanel =
-    user.username == data?.article.author.username ? (
+    user?.username == data?.article?.author?.username ? (
       <div className={styleArticleFull.editButtons}>
         <Popconfirm
           onConfirm={deleteArticle}
