@@ -8,28 +8,17 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Popconfirm } from 'antd';
-import { useEffect } from 'react';
 
 export default function ArticleFull() {
   const navigate = useNavigate();
   const { slug } = useParams();
-  console.log(slug)
-  // const user = useSelector((state) => state?.user?.user);
   const user = JSON.parse(localStorage.getItem('user-info'));
-  console.log(user.username);
   const [delArticle] = useArticleDeleteMutation();
-  const { data, isLoading, error, isSuccess } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true });
-
-  useEffect(()=>{
-    if(isSuccess){
-      
-    }
-  },[data])
+  const { data, isLoading, error } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true });
 
   const deleteArticle = () => {
     delArticle(data?.article?.slug);
     navigate('/');
-    console.log('delete');
   };
   if (error)
     return (
@@ -61,7 +50,9 @@ export default function ArticleFull() {
           <Button danger>Delete</Button>
         </Popconfirm>
 
-        <Link to={`/articles/${slug}/edit`} className={styleArticleFull.btnEdit}>Edit</Link>
+        <Link to={`/articles/${slug}/edit`} className={styleArticleFull.btnEdit}>
+          Edit
+        </Link>
       </div>
     ) : null;
 

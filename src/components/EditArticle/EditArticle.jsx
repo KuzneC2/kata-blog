@@ -10,9 +10,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 export default function EditArticle() {
   const { slug } = useParams();
   const [sendEdit, result] = useArticleEditMutation();
-  console.log(result);
   const { data } = useGetArticleQuery(slug);
-  console.log(data);
   const navigate = useNavigate();
   const [tagList, setTagList] = useState([]);
 
@@ -40,7 +38,6 @@ export default function EditArticle() {
     setTagList(newTagList);
   };
   const deleteTag = (id) => {
-    console.log(id);
     const newTagList = tagList.filter((el) => el.id !== id);
     setTagList(newTagList);
   };

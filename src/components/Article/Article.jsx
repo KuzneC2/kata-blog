@@ -4,7 +4,6 @@ import { NavLink, Outlet } from 'react-router-dom';
 import avatar from '../../assets/avatar.svg'
 
 export default function Article({ data }) {
-  console.log(data)
   return (
     <>
       <div className={styleArticle.articleContainer}>
