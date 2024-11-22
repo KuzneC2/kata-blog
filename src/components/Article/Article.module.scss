@@ -45,6 +45,11 @@
   overflow-wrap: anywhere;
   overflow: hidden;
   max-height: 30px;
+
+  &:hover {
+    opacity: 0.6;
+    cursor: pointer;
+  }
 }
 
 .tag {
@@ -141,10 +146,6 @@
   align-items: center;
 }
 
-// .input[type='checkbox'] {
-//   display: none;
-// }
-
 .heart {
   display: inline-block;
   width: 20px;
@@ -153,14 +154,18 @@
   background-repeat: no-repeat;
   background-position: 50%;
   margin-right: 4px;
-  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
 }
 
-.heart_on{
+.heart_on {
   background-image: url(../../assets/heart-active.svg);
-  
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
 }
 
-// .input[type='checkbox']:checked + .heart {
-//   background-image: url(../../assets/heart-active.svg);
-// }

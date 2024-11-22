@@ -4,11 +4,13 @@ import { useForm } from 'react-hook-form';
 
 import { useArticleAddMutation } from '../../redux/defaulApi';
 import { useNavigate } from 'react-router-dom';
+import { Alert, Flex } from 'antd';
 
 export default function NewArticle() {
   const navigate = useNavigate();
   const [tagList, setTagList] = useState([]);
   const [addNewArticle, { data, isSuccess, isLoading, isError }] = useArticleAddMutation();
+  const [sendDisabled, setSendDisabled] = useState(false);
 
   const { register, handleSubmit, reset } = useForm({
     mode: 'onChange',
@@ -33,7 +35,19 @@ export default function NewArticle() {
     setTagList(newTagList);
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      reset();
+      navigate('/');
+    }
+    if (isError) {
+      setSendDisabled(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, isSuccess, isLoading, isError]);
+
   const onSubmit = (value) => {
+    setSendDisabled(true);
     const tags = Object.keys(value)
       .filter((key) => key.startsWith('tag'))
       .map((key) => value[key]);
@@ -47,15 +61,15 @@ export default function NewArticle() {
     });
   };
 
-  useEffect(() => {
-    if (isSuccess) {
-      reset();
-      navigate('/');
-    }
-  }, [data, isSuccess, isLoading, isError]);
+  const errorMessage = isError ? (
+    <Flex justify="center">
+      <Alert message="Something went wrong, try again." type="error" showIcon />
+    </Flex>
+  ) : null;
 
   return (
     <>
+      {errorMessage}
       <div className={styleNewArticle.formContainer}>
         <h2 className={styleNewArticle.formTitle}>Create new article</h2>
 
@@ -145,7 +159,11 @@ export default function NewArticle() {
             </div>
           </div>
 
-          <button className={styleNewArticle.btnSubmit} type="submit">
+          <button
+            className={`${styleNewArticle.btnSubmit} ${sendDisabled ? styleNewArticle.btnSubmitDisable : null}`}
+            type="submit"
+            disabled={sendDisabled}
+          >
             Send
           </button>
         </form>

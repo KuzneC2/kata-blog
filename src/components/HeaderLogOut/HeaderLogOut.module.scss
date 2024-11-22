@@ -11,6 +11,10 @@
   border: 1px solid #52c41a;
   padding: 6px 12px 6px 10px;
   border-radius: 5px;
+  &:hover {
+    opacity: 0.6;
+    cursor: pointer;
+  }
 }
 
 .username {
@@ -24,41 +28,51 @@
   color: rgba(0, 0, 0, 0.85);
 
   margin: 0;
+  &:hover {
+    opacity: 0.6;
+    cursor: pointer;
+  }
 }
 
 .userInfo {
-    display: flex;
-    gap: 0 13px;
-    align-items: center;
-    text-decoration: none;
+  display: flex;
+  gap: 0 13px;
+  align-items: center;
+  text-decoration: none;
 }
 
 .userimage {
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  object-fit: cover
+  object-fit: cover;
+
+  &:hover {
+    opacity: 0.9;
+    cursor: pointer;
+  }
 }
 
-.btnLogout{
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 18px;
-line-height: 28px;
-align-items: center;
+.btnLogout {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  align-items: center;
 
-color: #000;
+  color: #000;
 
-text-decoration: none;
-padding: 10px 18px;
-border: 1px solid #000;
-border-radius: 5px;
-box-sizing: border-box;
-width: 109px;
-height: 51px;
+  text-decoration: none;
+  padding: 10px 18px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 109px;
+  height: 51px;
 
-&:hover{
+  &:hover {
+    cursor: pointer;
     opacity: 0.75;
-}
+  }
 }

@@ -25,11 +25,11 @@ export default function ArticleList() {
   const disArticle = (paginate - 1) * 5;
   const { data = [], isLoading, error } = useGetArticlesQuery(disArticle, { refetchOnMountOrArgChange: true });
 
-  const [addFavotite] = useAddFavoriteMutation();
+  const [addFavotite, { isError }] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
+
   const deleteLike = async (slug) => {
     try {
-      console.log('del');
       await removeFavorite(slug);
     } catch (error) {
       console.log(error);
@@ -38,12 +38,13 @@ export default function ArticleList() {
 
   const addLike = async (slug) => {
     try {
-      console.log('add');
       await addFavotite(slug);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const errorMessage = isError ? <Alert message="Please, log in!" type="warning" showIcon closable /> : null;
 
   if (error)
     return (
@@ -60,6 +61,7 @@ export default function ArticleList() {
   return (
     <>
       <div className={styleArticleList.container}>
+        {errorMessage}
         {data.articles.map((item) => (
           <Article key={item.slug} data={item} deleteLike={deleteLike} addLike={addLike} />
         ))}

@@ -5,12 +5,13 @@
   background-color: #fff;
   padding: 48px 32px;
   box-sizing: border-box;
+  font-family: 'Roboto';
+  font-style: normal;
 }
 
 .formTitle {
   margin: 0;
-  font-family: 'Roboto';
-  font-style: normal;
+
   font-weight: 500;
   font-size: 20px;
   line-height: 28px;
@@ -19,21 +20,14 @@
   padding-bottom: 21px;
 }
 
-.form {
-}
-
 .labelContainer {
   max-height: 88px;
   box-sizing: border-box;
   margin-bottom: 12px;
 }
-.label {
-}
 
 .labelSpan {
   padding-bottom: 2px;
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
@@ -43,13 +37,12 @@
 }
 
 .input {
+  font-family: 'Roboto';
+  font-style: normal;
   background-color: transparent;
   border: 1px solid #d9d9d9;
   padding: 8px 12px;
   border-radius: 4px;
-
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -73,6 +66,8 @@
 }
 
 .btnSubmit {
+  font-family: 'Roboto';
+  font-style: normal;
   width: 100%;
   max-width: 320px;
   box-sizing: border-box;
@@ -82,6 +77,10 @@
   border-radius: 4px;
   border: none;
   margin-top: 21px;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
 }
 
 .labelCheckbox {
@@ -89,8 +88,6 @@
 }
 
 .labelSpanCheck {
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
@@ -119,8 +116,6 @@
 }
 
 .description {
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
@@ -137,9 +132,6 @@
 
 .error {
   padding-bottom: 12px;
-
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;

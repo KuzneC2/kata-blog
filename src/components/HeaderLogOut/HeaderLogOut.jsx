@@ -7,12 +7,14 @@ import avatar from '../../assets/avatar.jpg';
 
 export default function HeaderLogOut() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state?.user?.user);
+ 
   const logOut = () => {
     dispatch(logOutUser());
     localStorage.removeItem('user-info');
     articlesApi.invalidateTags('Articles');
   };
-  const user = useSelector((state) => state?.user?.user);
+  
   if (!user?.email) {
     return;
   } else {

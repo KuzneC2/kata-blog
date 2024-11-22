@@ -12,17 +12,13 @@ import { useEffect } from 'react';
 export default function AuntificateForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [signIn, { data, isLoading, isSuccess, isError }] = useSignInProfileMutation();
+  const [signIn, { data, isLoading, isSuccess, isError, error }] = useSignInProfileMutation();
 
   const { register, handleSubmit, formState, reset, setError } = useForm({
     mode: 'onChange',
   });
   const emailError = formState.errors['email']?.message;
   const passwordError = formState.errors['password']?.message;
-
-  const onSubmit = async (value) => {
-    signIn(value);
-  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -40,14 +36,22 @@ export default function AuntificateForm() {
         message: 'invalid password or email',
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isSuccess, isError]);
 
-  const errorMessage = isError ? (
-    <Flex justify="center">
-      <Alert message="invalid password or email" type="error" showIcon />
-    </Flex>
-  ) : null;
+  const onSubmit = async (value) => {
+    signIn(value);
+  };
+  const errorMessage =
+    isError && error.status == 422 ? (
+      <Flex justify="center">
+        <Alert message="invalid password or email" type="error" showIcon />
+      </Flex>
+    ) : isError && error.status == 401 ? (
+      <Flex justify="center">
+        <Alert message="Unauthorized" type="error" showIcon />
+      </Flex>
+    ) : null;
 
   if (isLoading)
     return (

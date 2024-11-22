@@ -8,22 +8,17 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
+  const [registerUser, { data, isSuccess, isLoading, isError, error }] = useRegisterProfileMutation();
+
   const { register, handleSubmit, formState, reset, watch, setError } = useForm({
     mode: 'onChange',
   });
-
   const usernameError = formState.errors['username']?.message;
   const emailError = formState.errors['email']?.message;
   const passwordError = formState.errors['password']?.message;
   const passwordRepeatError = formState.errors['repeatPassword']?.message;
   const acceptError = formState.errors['accept']?.message;
-
-  const [registerUser, { data, isSuccess, isLoading, isError, error }] = useRegisterProfileMutation();
-  const navigate = useNavigate();
-
-  const onSubmit = (data) => {
-    registerUser(data);
-  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -38,7 +33,6 @@ export default function RegisterForm() {
         });
       }
       if (error?.data?.errors?.username.length) {
-
         setError('username', {
           message: 'is already taken',
         });
@@ -47,11 +41,16 @@ export default function RegisterForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, error, isError, isLoading, isSuccess]);
 
+  const onSubmit = (data) => {
+    registerUser(data);
+  };
+
   const errorMessage = isError ? (
     <Flex justify="center">
       <Alert message="username or ermail is already taken." type="error" showIcon />
     </Flex>
   ) : null;
+
   if (isLoading)
     return (
       <Flex align="center" justify="center">

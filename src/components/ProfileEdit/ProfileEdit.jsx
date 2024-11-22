@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styleEdit from './ProfileEdit.module.scss';
 import { useForm } from 'react-hook-form';
 
-import {  useProfileEditMutation } from '../../redux/defaulApi';
+import { useProfileEditMutation } from '../../redux/defaulApi';
 import { Alert, Flex, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
@@ -11,8 +11,10 @@ import { loginStart } from '../../redux/userSlice';
 
 export default function ProfileEdit() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.user?.user);
   const navigator = useNavigate();
+  const user = useSelector((state) => state?.user?.user);
+
+  const [profileEdit, { data, isSuccess, isLoading, error, isError }] = useProfileEditMutation();
 
   const { register, handleSubmit, formState, setError } = useForm({
     mode: 'onChange',
@@ -22,24 +24,10 @@ export default function ProfileEdit() {
       image: user.image,
     },
   });
-
-  const [profileEdit, { data, isSuccess, isLoading, error, isError }] = useProfileEditMutation();
-
   const usernameError = formState.errors['username']?.message;
   const emailError = formState.errors['email']?.message;
   const passwordError = formState.errors['password']?.message;
   const imageError = formState.errors['image']?.message;
-
-  const onSubmit = (value) => {
-
-    const updatedData = {};
-    for (const key in value) {
-      if (value[key] !== '') {
-        updatedData[key] = value[key];
-      }
-    }
-    profileEdit(updatedData);
-  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -59,8 +47,18 @@ export default function ProfileEdit() {
         });
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, error, isSuccess]);
+
+  const onSubmit = (value) => {
+    const updatedData = {};
+    for (const key in value) {
+      if (value[key] !== '') {
+        updatedData[key] = value[key];
+      }
+    }
+    profileEdit(updatedData);
+  };
 
   const errorMessage =
     isError && error.status == 422 ? (

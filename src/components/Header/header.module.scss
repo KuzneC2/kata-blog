@@ -18,6 +18,10 @@
   font-weight: 400;
   color: rgba(0, 0, 0, 0.85);
   text-decoration: none;
+  &:hover{
+    opacity: 0.6;
+    cursor: pointer;
+  }
 }
 .auntContaineer{
     padding-right: 22px;

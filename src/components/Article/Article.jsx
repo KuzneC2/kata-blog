@@ -4,6 +4,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import avatar from '../../assets/avatar.jpg';
 
 export default function Article({ data, deleteLike, addLike }) {
+  
   const liker = data.favorited ? (
     <span className={`${styleArticle.heart} ${styleArticle.heart_on}`} onClick={() => deleteLike(data.slug)}></span>
   ) : (

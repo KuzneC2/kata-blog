@@ -8,11 +8,12 @@ import { Flex, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 export default function EditArticle() {
-  const { slug } = useParams();
-  const [sendEdit, result] = useArticleEditMutation();
-  const { data } = useGetArticleQuery(slug);
   const navigate = useNavigate();
+  const { slug } = useParams();
+  const { data } = useGetArticleQuery(slug);
+
   const [tagList, setTagList] = useState([]);
+  const [sendEdit, result] = useArticleEditMutation();
 
   const { register, handleSubmit, reset } = useForm({
     mode: 'onChange',
@@ -37,6 +38,7 @@ export default function EditArticle() {
     let newTagList = [...tagList, { value, id: nanoid() }];
     setTagList(newTagList);
   };
+  
   const deleteTag = (id) => {
     const newTagList = tagList.filter((el) => el.id !== id);
     setTagList(newTagList);

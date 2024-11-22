@@ -13,15 +13,27 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Popconfirm } from 'antd';
+import { useEffect } from 'react';
+import { signInUser } from '../../redux/userSlice';
+import { useDispatch } from 'react-redux';
 
 export default function ArticleFull() {
+  const user = JSON.parse(localStorage.getItem('user-info'));
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { slug } = useParams();
-  const user = JSON.parse(localStorage.getItem('user-info'));
   const [delArticle] = useArticleDeleteMutation();
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem('user-info'));
+    dispatch(signInUser(userInfo));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const { data, isLoading, error } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true });
 
-  const [addFavotite] = useAddFavoriteMutation();
+  const [addFavotite, {isError}] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
 
   const deleteArticle = () => {
@@ -31,7 +43,6 @@ export default function ArticleFull() {
 
   const deleteLike = async () => {
     try {
-      console.log('del');
       await removeFavorite(slug);
     } catch (error) {
       console.log(error);
@@ -40,12 +51,13 @@ export default function ArticleFull() {
 
   const addLike = async () => {
     try {
-      console.log('add');
       await addFavotite(slug);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const errorMessage = isError ? <Alert message="Please, log in!" type="warning" showIcon closable /> : null;
 
   const editingPanel =
     user?.username == data?.article?.author?.username ? (
@@ -73,10 +85,11 @@ export default function ArticleFull() {
 
   if (error)
     return (
-      <Flex justify="center">
+      <Flex justify="center" className={styleArticleFull.errorMessage}>
         <Alert message="There's been some kind of mistake, we're already figuring it out!" type="error" showIcon />
       </Flex>
     );
+
   if (isLoading)
     return (
       <Flex align="center" justify="center">
@@ -85,13 +98,14 @@ export default function ArticleFull() {
     );
 
   const liker = data?.article?.favorited ? (
-    <span className={`${styleArticleFull.heart} ${styleArticleFull.heart_on}`} onClick={deleteLike}></span>
+    <span className={`${styleArticleFull.heart} ${styleArticleFull.heartOn}`} onClick={deleteLike}></span>
   ) : (
     <span className={styleArticleFull.heart} onClick={addLike}></span>
   );
 
   return (
     <>
+      {errorMessage}
       <div className={styleArticleFull.articleFullContainer}>
         <div className={styleArticleFull.articleContainer}>
           <div className={styleArticleFull.infoContainer}>

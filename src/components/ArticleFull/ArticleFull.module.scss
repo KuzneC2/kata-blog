@@ -6,13 +6,17 @@
   margin: 26px auto;
   background-color: #fff;
   padding: 15px 14px 24px 15px;
+  font-family: 'Inter';
+  font-style: normal;
 }
 
 .markdown {
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: anywhere;
+  color: #000000bf;
 }
+
 .articleContainer {
   display: flex;
   flex-direction: column;
@@ -38,8 +42,6 @@
 
 .title {
   margin: 0;
-  font-family: 'Inter';
-  font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 28px;
@@ -47,7 +49,6 @@
   display: flex;
   box-sizing: border-box;
   padding-right: 12px;
-
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 580px;
@@ -67,16 +68,12 @@
 }
 
 .tag {
-  display: inline;
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
-
-  color: rgba(0, 0, 0);
-
-  border: 1px solid rgba(0, 0, 0);
+  color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 2px;
   padding: 2px 6px 3px 5px;
   overflow: hidden;
@@ -92,6 +89,7 @@
 .userDescription {
   padding-right: 12px;
 }
+
 .userName {
   font-family: 'Inter';
   font-style: normal;
@@ -105,8 +103,7 @@
 
 .date {
   margin: 0;
-  font-family: 'Inter';
-  font-style: normal;
+
   font-weight: 400;
   font-size: 12px;
   line-height: 22px;
@@ -122,8 +119,6 @@
 }
 
 .description {
-  font-family: 'Inter';
-  font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 22px;
@@ -131,25 +126,18 @@
   max-width: 682px;
   margin: 0;
   padding-bottom: 4px;
-
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
 }
 
 .liker {
-  font-family: 'Inter';
-  font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 22px;
   color: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
-}
-
-.input[type='checkbox'] {
-  display: none;
 }
 
 .heart {
@@ -160,17 +148,20 @@
   background-repeat: no-repeat;
   background-position: 50%;
   margin-right: 4px;
-  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
 }
 
-.heart_on{
+.heartOn {
   background-image: url(../../assets/heart-active.svg);
-  
-}
 
-// .input[type='checkbox']:checked + .heart {
-//   background-image: url(../../assets/heart-active.svg);
-// }
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+}
 
 .descriptionPanel {
   display: flex;
@@ -220,3 +211,4 @@
     cursor: pointer;
   }
 }
+

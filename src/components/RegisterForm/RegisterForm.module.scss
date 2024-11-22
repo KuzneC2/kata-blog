@@ -10,12 +10,14 @@
   box-shadow: 0px 22px 106px rgba(0, 0, 0, 0.07), 0px 9.19107px 44.2843px rgba(0, 0, 0, 0.0503198),
     0px 4.91399px 23.6765px rgba(0, 0, 0, 0.0417275), 0px 2.75474px 13.2728px rgba(0, 0, 0, 0.035),
     0px 1.46302px 7.04911px rgba(0, 0, 0, 0.0282725), 0px 0.608796px 2.93329px rgba(0, 0, 0, 0.0196802);
+
+  font-family: 'Roboto';
+  font-style: normal;
 }
 
 .formTitle {
   margin: 0;
-  font-family: 'Roboto';
-  font-style: normal;
+
   font-weight: 500;
   font-size: 20px;
   line-height: 28px;
@@ -24,21 +26,15 @@
   padding-bottom: 21px;
 }
 
-.form {
-}
-
 .labelContainer {
   max-height: 88px;
   box-sizing: border-box;
   margin-bottom: 12px;
 }
-.label {
-}
 
 .labelSpan {
   padding-bottom: 2px;
-  font-family: 'Roboto';
-  font-style: normal;
+
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
@@ -48,17 +44,15 @@
 }
 
 .input {
+  font-family: 'Roboto';
+  font-style: normal;
   background-color: transparent;
   border: 1px solid #d9d9d9;
   padding: 8px 12px;
   border-radius: 4px;
-
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-
   color: rgba(0, 0, 0, 0.75);
   width: 100%;
   max-width: 320px;
@@ -79,6 +73,8 @@
 
 .btnSubmit {
   width: 100%;
+  font-family: 'Roboto';
+  font-style: normal;
   max-width: 320px;
   box-sizing: border-box;
   text-align: center;
@@ -87,6 +83,11 @@
   border-radius: 4px;
   border: none;
   margin-top: 9px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
 }
 
 .labelCheckbox {
@@ -94,17 +95,24 @@
 }
 
 .labelSpanCheck {
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
   color: #595959;
   padding-left: 8px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
 }
 
 .inputCheck {
   display: none;
+}
+
+.inputCheck[type='checkbox']:checked + .checkbox {
+  background-image: url(../../assets/checkboxForm.svg);
 }
 .checkbox {
   width: 17px;
@@ -119,18 +127,11 @@
   background-position: center;
 }
 
-.inputCheck[type='checkbox']:checked + .checkbox {
-  background-image: url(../../assets/checkboxForm.svg);
-}
-
 .description {
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
   text-align: center;
-
   color: #8c8c8c;
   margin: 0;
   padding-top: 8px;
@@ -138,13 +139,15 @@
 .link {
   color: #1890ff;
   text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
 }
 
 .error {
   padding-bottom: 12px;
-
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
