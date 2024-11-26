@@ -121,7 +121,6 @@
   background-image: url(../../assets/checkboxForm.svg);
 }
 
-
 .tagsList {
   display: flex;
   gap: 5px 17px;
@@ -134,6 +133,7 @@
 }
 
 .btnDelete {
+  max-height: 42px;
   padding: 8px 36px;
   box-sizing: border-box;
   background-color: #fff;
@@ -154,6 +154,7 @@
 .btnAdd {
   padding: 8px 40px;
   box-sizing: border-box;
+  max-height: 42px;
   background-color: #fff;
   color: #1890ff;
   border: 1px solid #1890ff;
@@ -173,6 +174,18 @@
   color: #f5222d;
 }
 
+.tagsInputBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+}
+
 .btnSubmitDisable {
   background-color: #517da6cf;
+}
+
+.errorInput {
+  outline: #f5222d;
+  border-color: #f5222d;
 }

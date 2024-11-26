@@ -12,17 +12,25 @@ export default function NewArticle() {
   const [addNewArticle, { data, isSuccess, isLoading, isError }] = useArticleAddMutation();
   const [sendDisabled, setSendDisabled] = useState(false);
 
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset, formState, setError, getValues } = useForm({
     mode: 'onChange',
   });
+  const titleError = formState.errors['title']?.message;
+  const descriptionError = formState.errors['description']?.message;
+  const bodyError = formState.errors['body']?.message;
 
   const addNewTag = () => {
     let newTagList = [...tagList, { value: '', id: new Date().getTime() }];
     setTagList(newTagList);
   };
 
-  const deleteTag = (id) => {
-    const newTagList = tagList.filter((el) => el.id !== id);
+  const deleteTag = (id, index) => {
+    const newTagList = [...tagList.slice(0, index), ...tagList.slice(index + 1)];
+    const updatedTags = { ...getValues() };
+    delete updatedTags[`tag${id}`];
+    reset({
+      ...updatedTags,
+    });
     setTagList(newTagList);
   };
 
@@ -43,7 +51,7 @@ export default function NewArticle() {
     if (isError) {
       setSendDisabled(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isSuccess, isLoading, isError]);
 
   const onSubmit = (value) => {
@@ -51,14 +59,41 @@ export default function NewArticle() {
     const tags = Object.keys(value)
       .filter((key) => key.startsWith('tag'))
       .map((key) => value[key]);
-    addNewArticle({
-      article: {
-        title: value.title,
-        description: value.description,
-        body: value.body,
-        tagList: tags,
-      },
-    });
+
+    if (
+      value.title.trim().length == 0 ||
+      !value.title ||
+      value.description.trim().length == 0 ||
+      !value.description ||
+      value.body.trim().length == 0 ||
+      !value.body
+    ) {
+      if (value.title.trim().length == 0 || !value.title) {
+        setError('title', {
+          message: 'the field must be filled in',
+        });
+      }
+      if (value.description.trim().length == 0 || !value.description) {
+        setError('description', {
+          message: 'the field must be filled in',
+        });
+      }
+      if (value.body.trim().length == 0 || !value.body) {
+        setError('body', {
+          message: 'the field must be filled in',
+        });
+      }
+      setSendDisabled(false);
+    } else {
+      addNewArticle({
+        article: {
+          title: value.title,
+          description: value.description,
+          body: value.body,
+          tagList: tags,
+        },
+      });
+    }
   };
 
   const errorMessage = isError ? (
@@ -79,14 +114,13 @@ export default function NewArticle() {
               <span className={styleNewArticle.labelSpan}>Title</span>
               <input
                 autoComplete="new-password"
-                className={`${styleNewArticle.input}`}
+                className={`${styleNewArticle.input} ${titleError ? styleNewArticle.errorInput : null}`}
                 type="text"
                 placeholder="Title"
-                {...register('title', {
-                  required: true,
-                })}
+                {...register('title', {})}
               />
             </label>
+            {titleError ? <span className={styleNewArticle.error}>{titleError}</span> : null}
           </div>
 
           <div className={styleNewArticle.labelContainer}>
@@ -94,14 +128,13 @@ export default function NewArticle() {
               <span className={styleNewArticle.labelSpan}>Short description</span>
               <input
                 autoComplete="new-password"
-                className={`${styleNewArticle.input}`}
+                className={`${styleNewArticle.input} ${descriptionError ? styleNewArticle.errorInput : null}`}
                 type="text"
                 placeholder="Title"
-                {...register('description', {
-                  required: true,
-                })}
+                {...register('description', {})}
               />
             </label>
+            {descriptionError ? <span className={styleNewArticle.error}>{descriptionError}</span> : null}
           </div>
 
           <div className={styleNewArticle.labelContainer}>
@@ -109,14 +142,15 @@ export default function NewArticle() {
               <span className={styleNewArticle.labelSpan}>Text</span>
               <textarea
                 autoComplete="new-password"
-                className={`${styleNewArticle.input} ${styleNewArticle.inputArea}`}
+                className={`${styleNewArticle.input} ${bodyError ? styleNewArticle.errorInput : null} ${
+                  styleNewArticle.inputArea
+                } `}
                 type="text"
                 placeholder="Text"
-                {...register('body', {
-                  required: true,
-                })}
+                {...register('body', {})}
               />
             </label>
+            {bodyError ? <span className={styleNewArticle.error}>{bodyError}</span> : null}
           </div>
 
           <div className={styleNewArticle.tagsContainer}>
@@ -126,33 +160,55 @@ export default function NewArticle() {
               {tagList.length ? (
                 tagList.map((el, index) => (
                   <div className={styleNewArticle.tagContainer} key={el.id}>
-                    <input
-                      className={`${styleNewArticle.input} ${styleNewArticle.inputTag}`}
-                      type="text"
-                      defaultValue={el.value}
-                      onChange={(e) => changeTag(e, el.id)}
-                      {...register(`tag${index}`, {
-                        required: true,
-                      })}
-                    />
-                    {index === tagList.length - 1 ? (
+                    <div className={styleNewArticle.tagsInputBox}>
+                      <input
+                        className={`${styleNewArticle.input} ${styleNewArticle.inputTag} ${
+                          formState.errors[`tag${el.id}`] ? styleNewArticle.errorInput : null
+                        }`}
+                        type="text"
+                        defaultValue={el.value}
+                        onChange={(e) => changeTag(e, el.id)}
+                        {...register(`tag${el.id}`, {
+                          // required: true,
+                          pattern: {
+                            value: /(.|\s)*\S(.|\s)*/,
+                            message: 'the field must not be empty',
+                          },
+                        })}
+                      />
+                      {formState.errors[`tag${el.id}`] &&
+                      (formState.errors[`tag${el.id}`].type === 'required' ||
+                        formState.errors[`tag${el.id}`].type === 'pattern') ? (
+                        <span className={styleNewArticle.error}>{formState.errors[`tag${el.id}`].message}</span>
+                      ) : null}
+                    </div>
+
+                    {el.id === tagList[tagList.length - 1].id ? (
                       <>
-                        <button className={styleNewArticle.btnDelete} type="button" onClick={() => deleteTag(el.id)}>
+                        <button
+                          className={styleNewArticle.btnDelete}
+                          type="button"
+                          onClick={() => deleteTag(el.id, index)}
+                        >
                           Delete
                         </button>
-                        <button className={styleNewArticle.btnAdd} type="button" onClick={addNewTag}>
+                        <button className={styleNewArticle.btnAdd} type="button" onClick={() => addNewTag('')}>
                           Add tag
                         </button>
                       </>
                     ) : (
-                      <button className={styleNewArticle.btnDelete} type="button" onClick={() => deleteTag(el.id)}>
+                      <button
+                        className={styleNewArticle.btnDelete}
+                        type="button"
+                        onClick={() => deleteTag(el.id, index)}
+                      >
                         Delete
                       </button>
                     )}
                   </div>
                 ))
               ) : (
-                <button className={styleNewArticle.btnAdd} type="button" onClick={addNewTag}>
+                <button className={styleNewArticle.btnAdd} type="button" onClick={() => addNewTag('')}>
                   Add tag
                 </button>
               )}

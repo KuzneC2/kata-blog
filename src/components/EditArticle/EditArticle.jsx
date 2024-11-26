@@ -15,7 +15,7 @@ export default function EditArticle() {
   const [tagList, setTagList] = useState([]);
   const [sendEdit, result] = useArticleEditMutation();
 
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset, formState, setError, getValues } = useForm({
     mode: 'onChange',
     defaultValues: {
       title: data?.article?.title,
@@ -23,6 +23,10 @@ export default function EditArticle() {
       body: data?.article?.body,
     },
   });
+
+  const titleError = formState.errors['title']?.message;
+  const descriptionError = formState.errors['description']?.message;
+  const bodyError = formState.errors['body']?.message;
 
   const startTags = (data) => {
     if (data) {
@@ -36,11 +40,17 @@ export default function EditArticle() {
 
   const addNewTag = (value = '') => {
     let newTagList = [...tagList, { value, id: nanoid() }];
+    console.log(newTagList);
     setTagList(newTagList);
   };
-  
-  const deleteTag = (id) => {
-    const newTagList = tagList.filter((el) => el.id !== id);
+
+  const deleteTag = (id, index) => {
+    const newTagList = [...tagList.slice(0, index), ...tagList.slice(index + 1)];
+    const updatedTags = { ...getValues() };
+    delete updatedTags[`tag${id}`]; // удаление ключа из формы value
+    reset({
+      ...updatedTags,
+    });
     setTagList(newTagList);
   };
 
@@ -57,23 +67,50 @@ export default function EditArticle() {
     const tags = Object.keys(value)
       .filter((key) => key.startsWith('tag'))
       .map((key) => value[key]);
-    sendEdit({
-      slug,
-      body: {
-        article: {
-          title: value.title,
-          description: value.description,
-          body: value.body,
-          tagList: tags,
+
+    if (
+      value.title.trim().length == 0 ||
+      !value.title ||
+      value.description.trim().length == 0 ||
+      !value.description ||
+      value.body.trim().length == 0 ||
+      !value.body
+    ) {
+      if (value.title.trim().length == 0 || !value.title) {
+        setError('title', {
+          message: 'the field must be filled in',
+        });
+      }
+      if (value.description.trim().length == 0 || !value.description) {
+        setError('description', {
+          message: 'the field must be filled in',
+        });
+      }
+      if (value.body.trim().length == 0 || !value.body) {
+        setError('body', {
+          message: 'the field must be filled in',
+        });
+      }
+    } else {
+      sendEdit({
+        slug,
+        body: {
+          article: {
+            title: value.title,
+            description: value.description,
+            body: value.body,
+            tagList: tags,
+          },
         },
-      },
-    });
+      });
+    }
   };
 
   useEffect(() => {
     if (result.isSuccess) {
       navigate('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result.isSuccess]);
 
   useEffect(() => {
@@ -84,6 +121,7 @@ export default function EditArticle() {
     });
 
     startTags(data?.article?.tagList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   if (result.isLoading)
@@ -96,7 +134,7 @@ export default function EditArticle() {
   return (
     <>
       <div className={styleEditArticle.formContainer}>
-        <h2 className={styleEditArticle.formTitle}>Create new article</h2>
+        <h2 className={styleEditArticle.formTitle}>Edit article</h2>
 
         <form className={styleEditArticle.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={styleEditArticle.labelContainer}>
@@ -104,14 +142,13 @@ export default function EditArticle() {
               <span className={styleEditArticle.labelSpan}>Title</span>
               <input
                 autoComplete="new-password"
-                className={`${styleEditArticle.input}`}
+                className={`${styleEditArticle.input} ${titleError ? styleEditArticle.errorInput : null}`}
                 type="text"
                 placeholder="Title"
-                {...register('title', {
-                  required: true,
-                })}
+                {...register('title', {})}
               />
             </label>
+            {titleError ? <span className={styleEditArticle.error}>{titleError}</span> : null}
           </div>
 
           <div className={styleEditArticle.labelContainer}>
@@ -119,14 +156,13 @@ export default function EditArticle() {
               <span className={styleEditArticle.labelSpan}>Short description</span>
               <input
                 autoComplete="new-password"
-                className={`${styleEditArticle.input}`}
+                className={`${styleEditArticle.input} ${descriptionError ? styleEditArticle.errorInput : null}`}
                 type="text"
                 placeholder="Title"
-                {...register('description', {
-                  required: true,
-                })}
+                {...register('description', {})}
               />
             </label>
+            {descriptionError ? <span className={styleEditArticle.error}>{descriptionError}</span> : null}
           </div>
 
           <div className={styleEditArticle.labelContainer}>
@@ -134,14 +170,15 @@ export default function EditArticle() {
               <span className={styleEditArticle.labelSpan}>Text</span>
               <textarea
                 autoComplete="new-password"
-                className={`${styleEditArticle.input} ${styleEditArticle.inputArea}`}
+                className={`${styleEditArticle.input} ${bodyError ? styleEditArticle.errorInput : null} ${
+                  styleEditArticle.inputArea
+                } `}
                 type="text"
                 placeholder="Text"
-                {...register('body', {
-                  required: true,
-                })}
+                {...register('body', {})}
               />
             </label>
+            {bodyError ? <span className={styleEditArticle.error}>{bodyError}</span> : null}
           </div>
 
           <div className={styleEditArticle.tagsContainer}>
@@ -149,20 +186,36 @@ export default function EditArticle() {
 
             <div className={styleEditArticle.tagsList}>
               {tagList.length ? (
-                tagList.map((el) => (
+                tagList.map((el, index) => (
                   <div className={styleEditArticle.tagContainer} key={el.id}>
-                    <input
-                      className={`${styleEditArticle.input} ${styleEditArticle.inputTag}`}
-                      type="text"
-                      defaultValue={el.value}
-                      onChange={(e) => changeTag(e, el.id)}
-                      {...register(`tag${el.id}`, {
-                        required: true,
-                      })}
-                    />
+                    <div className={styleEditArticle.tagsInputBox}>
+                      <input
+                        className={`${styleEditArticle.input} ${styleEditArticle.inputTag}`}
+                        type="text"
+                        defaultValue={el.value}
+                        onChange={(e) => changeTag(e, el.id)}
+                        {...register(`tag${el.id}`, {
+                          required: true,
+                          pattern: {
+                            value: /(.|\s)*\S(.|\s)*/,
+                            message: 'the field must not be empty',
+                          },
+                        })}
+                      />
+                      {formState.errors[`tag${el.id}`] &&
+                      (formState.errors[`tag${el.id}`].type === 'required' ||
+                        formState.errors[`tag${el.id}`].type === 'pattern') ? (
+                        <span className={styleEditArticle.error}>{formState.errors[`tag${el.id}`].message}</span>
+                      ) : null}
+                    </div>
+
                     {el.id === tagList[tagList.length - 1].id ? (
                       <>
-                        <button className={styleEditArticle.btnDelete} type="button" onClick={() => deleteTag(el.id)}>
+                        <button
+                          className={styleEditArticle.btnDelete}
+                          type="button"
+                          onClick={() => deleteTag(el.id, index)}
+                        >
                           Delete
                         </button>
                         <button className={styleEditArticle.btnAdd} type="button" onClick={() => addNewTag('')}>
@@ -170,7 +223,11 @@ export default function EditArticle() {
                         </button>
                       </>
                     ) : (
-                      <button className={styleEditArticle.btnDelete} type="button" onClick={() => deleteTag(el.id)}>
+                      <button
+                        className={styleEditArticle.btnDelete}
+                        type="button"
+                        onClick={() => deleteTag(el.id, index)}
+                      >
                         Delete
                       </button>
                     )}

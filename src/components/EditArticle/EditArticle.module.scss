@@ -85,6 +85,9 @@
 }
 
 .btnSubmit {
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-style: normal;
   width: 100%;
   max-width: 320px;
   box-sizing: border-box;
@@ -112,6 +115,8 @@
 }
 
 .btnDelete {
+  max-height: 42px;
+  max-height: 42px;
   padding: 8px 36px;
   box-sizing: border-box;
   background-color: #fff;
@@ -130,6 +135,7 @@
 }
 
 .btnAdd {
+  max-height: 42px;
   padding: 8px 40px;
   box-sizing: border-box;
   background-color: #fff;
@@ -143,9 +149,19 @@
   }
 }
 
-.error {
-  padding-bottom: 12px;
+.tagsInputBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+}
 
+.errorInput {
+  outline: #f5222d;
+  border-color: #f5222d;
+}
+
+.error {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
